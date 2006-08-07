@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.1 2006/08/07 14:38:43 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.2 2006/08/07 17:55:27 squareing Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.1 $ $Date: 2006/08/07 14:38:43 $
+* @version $Revision: 1.2 $ $Date: 2006/08/07 17:55:27 $
 * @class LibertyGeo
 */
 
@@ -60,19 +60,19 @@ class LibertyGeo extends LibertyBase {
 		if( $this->isValid() ) {
 			$this->load();
 			$pParamHash['geo_store']['content_id'] = $this->mContentId;
-		  if( ( !empty( $pParamHash['lat'] ) && is_numeric( $pParamHash['lat'] ) ) || $pParamHash['lat'] == 0 ) {
-        $pParamHash['geo_store']['lat'] = $pParamHash['lat'];
-      }
-		  if( ( !empty( $pParamHash['lng'] ) && is_numeric( $pParamHash['lng'] ) ) || $pParamHash['lng'] == 0 ) {
-        $pParamHash['geo_store']['lng'] = $pParamHash['lng'];
-      }
-		  if( ( !empty( $pParamHash['amsl'] ) && is_numeric( $pParamHash['amsl'] ) ) || $pParamHash['amsl'] == 0 ) {
-        $pParamHash['geo_store']['amsl'] = $pParamHash['amsl'];
-      }
-		  if( !empty( $pParamHash['amsl_unit'] ) {
-        $pParamHash['geo_store']['amsl_unit'] = $pParamHash['amsl_unit'];
-      }
-		}		
+			if( ( !empty( $pParamHash['lat'] ) && is_numeric( $pParamHash['lat'] ) ) || $pParamHash['lat'] == 0 ) {
+				$pParamHash['geo_store']['lat'] = $pParamHash['lat'];
+			}
+			if( ( !empty( $pParamHash['lng'] ) && is_numeric( $pParamHash['lng'] ) ) || $pParamHash['lng'] == 0 ) {
+				$pParamHash['geo_store']['lng'] = $pParamHash['lng'];
+			}
+			if( ( !empty( $pParamHash['amsl'] ) && is_numeric( $pParamHash['amsl'] ) ) || $pParamHash['amsl'] == 0 ) {
+				$pParamHash['geo_store']['amsl'] = $pParamHash['amsl'];
+			}
+			if( !empty( $pParamHash['amsl_unit'] ) ) {
+				$pParamHash['geo_store']['amsl_unit'] = $pParamHash['amsl_unit'];
+			}
+		}
 		return( count( $this->mErrors )== 0 );
 	}
 
@@ -101,7 +101,7 @@ class LibertyGeo extends LibertyBase {
 function geo_content_load_sql() {
 	global $gBitSystem;
 	$ret = array();
-  $ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";		
+	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";		
 	return $ret;
 }
 
@@ -110,7 +110,7 @@ function geo_content_store( &$pObject, &$pParamHash ) {
 	$errors = NULL;
 	// If a content access system is active, let's call it
 	if( $gBitSystem->isPackageActive( 'geo' ) ) {
-    $geo = new LibertyGeo( $pObject->mContentId );
+		$geo = new LibertyGeo( $pObject->mContentId );
 		if ( !$geo->store( $pParamHash ) ) {
 			$errors['geo'] = $geo->mErrors['geo'];
 		}
