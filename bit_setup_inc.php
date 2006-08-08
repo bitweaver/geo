@@ -13,7 +13,7 @@ if( $gBitSystem->isPackageActive( 'geo' ) ) {
 		'content_load_sql_function' => 'geo_content_load_sql',
 		'content_store_function'  => 'geo_content_store',
 		'content_expunge_function'  => 'geo_content_expunge',
-		'content_edit_tpl' => 'bitpackage:geo/edit_geo.tpl',
+		'content_edit_mini_tpl' => 'bitpackage:geo/edit_geo.tpl',
 	) );
 }
 ?>
