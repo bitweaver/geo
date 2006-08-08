@@ -3,11 +3,11 @@ $tables = array(
   'geo' => "
     content_id I4 NOTNULL,
     lat F,
-    lon F,
+    lng F,
     amsl F,
-    amsl_unit C(2),
+    amsl_unit C(2)
     CONSTRAINT ', CONSTRAINT `geo_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content`( `content_id` )'
-  ",
+  "
 );
 
 global $gBitInstaller;

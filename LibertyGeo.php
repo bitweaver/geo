@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.2 2006/08/07 17:55:27 squareing Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.3 2006/08/08 02:07:54 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.2 $ $Date: 2006/08/07 17:55:27 $
+* @version $Revision: 1.3 $ $Date: 2006/08/08 02:07:54 $
 * @class LibertyGeo
 */
 
@@ -60,17 +60,19 @@ class LibertyGeo extends LibertyBase {
 		if( $this->isValid() ) {
 			$this->load();
 			$pParamHash['geo_store']['content_id'] = $this->mContentId;
-			if( ( !empty( $pParamHash['lat'] ) && is_numeric( $pParamHash['lat'] ) ) || $pParamHash['lat'] == 0 ) {
-				$pParamHash['geo_store']['lat'] = $pParamHash['lat'];
-			}
-			if( ( !empty( $pParamHash['lng'] ) && is_numeric( $pParamHash['lng'] ) ) || $pParamHash['lng'] == 0 ) {
-				$pParamHash['geo_store']['lng'] = $pParamHash['lng'];
-			}
-			if( ( !empty( $pParamHash['amsl'] ) && is_numeric( $pParamHash['amsl'] ) ) || $pParamHash['amsl'] == 0 ) {
-				$pParamHash['geo_store']['amsl'] = $pParamHash['amsl'];
-			}
-			if( !empty( $pParamHash['amsl_unit'] ) ) {
-				$pParamHash['geo_store']['amsl_unit'] = $pParamHash['amsl_unit'];
+			if(!empty( $pParamHash['geo'])){			
+			 if( ( !empty( $pParamHash['geo']['lat'] ) && is_numeric( $pParamHash['geo']['lat'] ) ) || $pParamHash['geo']['lat'] == 0 ) {
+				  $pParamHash['geo_store']['lat'] = $pParamHash['geo']['lat'];
+			 }
+			 if( ( !empty( $pParamHash['geo']['lng'] ) && is_numeric( $pParamHash['geo']['lng'] ) ) || $pParamHash['geo']['lng'] == 0 ) {
+				  $pParamHash['geo_store']['lng'] = $pParamHash['geo']['lng'];
+			 }
+			 if( ( !empty( $pParamHash['geo']['amsl'] ) && is_numeric( $pParamHash['geo']['amsl'] ) ) || $pParamHash['geo']['amsl'] == 0 ) {
+				$pParamHash['geo_store']['amsl'] = $pParamHash['geo']['amsl'];
+			 }
+			 if( !empty( $pParamHash['geo']['amsl_unit'] ) ) {
+		  		$pParamHash['geo_store']['amsl_unit'] = $pParamHash['geo']['amsl_unit'];
+			 }
 			}
 		}
 		return( count( $this->mErrors )== 0 );
