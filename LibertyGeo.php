@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.3 2006/08/08 02:07:54 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.4 2006/08/11 17:56:24 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.3 $ $Date: 2006/08/08 02:07:54 $
+* @version $Revision: 1.4 $ $Date: 2006/08/11 17:56:24 $
 * @class LibertyGeo
 */
 
@@ -103,7 +103,8 @@ class LibertyGeo extends LibertyBase {
 function geo_content_load_sql() {
 	global $gBitSystem;
 	$ret = array();
-	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";		
+	$ret['select_sql'] = " , geo.* ";
+	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";
 	return $ret;
 }
 
