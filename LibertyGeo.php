@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.4 2006/08/11 17:56:24 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.5 2006/08/18 17:48:28 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.4 $ $Date: 2006/08/11 17:56:24 $
+* @version $Revision: 1.5 $ $Date: 2006/08/18 17:48:28 $
 * @class LibertyGeo
 */
 
@@ -61,13 +61,13 @@ class LibertyGeo extends LibertyBase {
 			$this->load();
 			$pParamHash['geo_store']['content_id'] = $this->mContentId;
 			if(!empty( $pParamHash['geo'])){			
-			 if( ( !empty( $pParamHash['geo']['lat'] ) && is_numeric( $pParamHash['geo']['lat'] ) ) || $pParamHash['geo']['lat'] == 0 ) {
+			 if( isset( $pParamHash['geo']['lat'] ) && is_numeric( $pParamHash['geo']['lat'] ) ) {
 				  $pParamHash['geo_store']['lat'] = $pParamHash['geo']['lat'];
 			 }
-			 if( ( !empty( $pParamHash['geo']['lng'] ) && is_numeric( $pParamHash['geo']['lng'] ) ) || $pParamHash['geo']['lng'] == 0 ) {
+			 if( isset( $pParamHash['geo']['lng'] ) && is_numeric( $pParamHash['geo']['lng'] ) ) {
 				  $pParamHash['geo_store']['lng'] = $pParamHash['geo']['lng'];
 			 }
-			 if( ( !empty( $pParamHash['geo']['amsl'] ) && is_numeric( $pParamHash['geo']['amsl'] ) ) || $pParamHash['geo']['amsl'] == 0 ) {
+			 if( isset( $pParamHash['geo']['amsl'] ) && is_numeric( $pParamHash['geo']['amsl'] ) ) {
 				$pParamHash['geo_store']['amsl'] = $pParamHash['geo']['amsl'];
 			 }
 			 if( !empty( $pParamHash['geo']['amsl_unit'] ) ) {
@@ -103,7 +103,7 @@ class LibertyGeo extends LibertyBase {
 function geo_content_load_sql() {
 	global $gBitSystem;
 	$ret = array();
-	$ret['select_sql'] = " , geo.* ";
+	$ret['select_sql'] = " , geo.`lat`, geo.`lng`, geo.`amsl`, geo.`amsl_unit`"; 
 	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";
 	return $ret;
 }
@@ -115,7 +115,7 @@ function geo_content_store( &$pObject, &$pParamHash ) {
 	if( $gBitSystem->isPackageActive( 'geo' ) ) {
 		$geo = new LibertyGeo( $pObject->mContentId );
 		if ( !$geo->store( $pParamHash ) ) {
-			$errors['geo'] = $geo->mErrors['geo'];
+			$errors=array('geo'=> $geo->mErrors['geo']);
 		}
 	}
 	return( $errors );
