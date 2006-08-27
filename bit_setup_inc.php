@@ -11,6 +11,7 @@ if( $gBitSystem->isPackageActive( 'geo' ) ) {
 
 	$gLibertySystem->registerService( LIBERTY_SERVICE_GEO, GEO_PKG_NAME, array(
 		'content_load_sql_function' => 'geo_content_load_sql',
+		'content_list_sql_function' => 'geo_content_list_sql',
 		'content_store_function'  => 'geo_content_store',
 		'content_expunge_function'  => 'geo_content_expunge',
 	) );
