@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.6 2006/08/27 03:29:41 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.7 2006/09/01 13:02:39 sylvieg Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.6 $ $Date: 2006/08/27 03:29:41 $
+* @version $Revision: 1.7 $ $Date: 2006/09/01 13:02:39 $
 * @class LibertyGeo
 */
 
@@ -107,12 +107,21 @@ function geo_content_load_sql() {
 	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";
 	return $ret;
 }
-
-function geo_content_list_sql() {
+/**
+ * @param $pParamHash['up']['lng'], $pParamHash['up']['lat'], $pParamHash['down']['lng'], $pParamHash['down']['lat']
+ **/
+function geo_content_list_sql(&$pObject, &$pParamHash=null) {
 	global $gBitSystem;
 	$ret = array();
 	$ret['select_sql'] = " , geo.`lat`, geo.`lng`, geo.`amsl`, geo.`amsl_unit`"; 
 	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";
+	if (isset($pParamHash['up']) && isset($pParamHash['down']) && isset($pParamHash['up']['lng']) && isset($pParamHash['up']['lat']) && isset($pParamHash['down']['lng']) && isset($pParamHash['down']['lat']) ) {
+		$ret['where_sql'] = ' AND geo.`lng` >= ? AND geo.`lng` <= ? AND geo.`lat` <= ? AND geo.`lat` >= ? ';
+		$ret['bind_vars'][] = $pParamHash['up']['lng'];
+		$ret['bind_vars'][] = $pParamHash['down']['lng'];
+		$ret['bind_vars'][] = $pParamHash['up']['lat'];
+		$ret['bind_vars'][] = $pParamHash['down']['lat'];
+	}
 	return $ret;
 }
 
