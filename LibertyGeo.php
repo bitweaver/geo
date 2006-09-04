@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.7 2006/09/01 13:02:39 sylvieg Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.8 2006/09/04 21:01:59 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.7 $ $Date: 2006/09/01 13:02:39 $
+* @version $Revision: 1.8 $ $Date: 2006/09/04 21:01:59 $
 * @class LibertyGeo
 */
 
@@ -110,7 +110,7 @@ function geo_content_load_sql() {
 /**
  * @param $pParamHash['up']['lng'], $pParamHash['up']['lat'], $pParamHash['down']['lng'], $pParamHash['down']['lat']
  **/
-function geo_content_list_sql(&$pObject, &$pParamHash=null) {
+function geo_content_list_sql( &$pObject, $pParamHash=NULL ) {
 	global $gBitSystem;
 	$ret = array();
 	$ret['select_sql'] = " , geo.`lat`, geo.`lng`, geo.`amsl`, geo.`amsl_unit`"; 
