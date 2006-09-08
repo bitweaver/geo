@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.10 2006/09/08 21:10:32 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.11 2006/09/08 22:05:46 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.10 $ $Date: 2006/09/08 21:10:32 $
+* @version $Revision: 1.11 $ $Date: 2006/09/08 22:05:46 $
 * @class LibertyGeo
 */
 
@@ -115,12 +115,21 @@ function geo_content_list_sql( &$pObject, $pParamHash=NULL ) {
 	$ret = array();
 	$ret['select_sql'] = " , geo.`lat`, geo.`lng`, geo.`amsl`, geo.`amsl_unit`"; 
 	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";
-	if (isset($pParamHash['geo_coords']) && isset($pParamHash['geo_coords']['up_lat']) && isset($pParamHash['geo_coords']['right_lng']) && isset($pParamHash['geo_coords']['down_lat']) && isset($pParamHash['geo_coords']['up_lng']) ) {
-		$ret['where_sql'] = ' AND geo.`lng` >= ? AND geo.`lng` <= ? AND geo.`lat` <= ? AND geo.`lat` >= ? ';
-		$ret['bind_vars'][] = $pParamHash['geo_coords']['up_lng'];
-		$ret['bind_vars'][] = $pParamHash['geo_coords']['right_lng'];
-		$ret['bind_vars'][] = $pParamHash['geo_coords']['down_lat'];
-		$ret['bind_vars'][] = $pParamHash['geo_coords']['left_lat'];
+	if (isset($pParamHash['up_lat']) && isset($pParamHash['right_lng']) && isset($pParamHash['down_lat']) && isset($pParamHash['left_lng']) ) {	
+	  /* when the left is greater than the right 
+     * then the international dateline is visible 
+     * and we need to get values at an intersection 
+     * of two groups, so we use OR
+     */     
+	  if ($pParamHash['left_lng'] < $pParamHash['right_lng']){	
+		  $ret['where_sql'] = ' AND geo.`lng` >= ? AND geo.`lng` <= ? AND geo.`lat` <= ? AND geo.`lat` >= ? ';
+		}else{
+		  $ret['where_sql'] = ' AND ( geo.`lng` >= ? OR geo.`lng` <= ? ) AND geo.`lat` <= ? AND geo.`lat` >= ? ';
+    }
+		$ret['bind_vars'][] = $pParamHash['left_lng'];
+		$ret['bind_vars'][] = $pParamHash['right_lng'];
+		$ret['bind_vars'][] = $pParamHash['up_lat'];
+		$ret['bind_vars'][] = $pParamHash['down_lat'];
 	}
   if (isset($pParamHash['geo_notnull'])){
 		$ret['where_sql'] = ' AND geo.`lng` IS NOT NULL AND geo.`lng` IS NOT NULL ';
