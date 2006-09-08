@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.9 2006/09/08 01:52:21 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.10 2006/09/08 21:10:32 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.9 $ $Date: 2006/09/08 01:52:21 $
+* @version $Revision: 1.10 $ $Date: 2006/09/08 21:10:32 $
 * @class LibertyGeo
 */
 
@@ -115,14 +115,14 @@ function geo_content_list_sql( &$pObject, $pParamHash=NULL ) {
 	$ret = array();
 	$ret['select_sql'] = " , geo.`lat`, geo.`lng`, geo.`amsl`, geo.`amsl_unit`"; 
 	$ret['join_sql'] = " LEFT JOIN `".BIT_DB_PREFIX."geo` geo ON ( lc.`content_id`=geo.`content_id` )";
-	if (isset($pParamHash['up']) && isset($pParamHash['down']) && isset($pParamHash['up']['lng']) && isset($pParamHash['up']['lat']) && isset($pParamHash['down']['lng']) && isset($pParamHash['down']['lat']) ) {
+	if (isset($pParamHash['geo_coords']) && isset($pParamHash['geo_coords']['up_lat']) && isset($pParamHash['geo_coords']['right_lng']) && isset($pParamHash['geo_coords']['down_lat']) && isset($pParamHash['geo_coords']['up_lng']) ) {
 		$ret['where_sql'] = ' AND geo.`lng` >= ? AND geo.`lng` <= ? AND geo.`lat` <= ? AND geo.`lat` >= ? ';
-		$ret['bind_vars'][] = $pParamHash['up']['lng'];
-		$ret['bind_vars'][] = $pParamHash['down']['lng'];
-		$ret['bind_vars'][] = $pParamHash['up']['lat'];
-		$ret['bind_vars'][] = $pParamHash['down']['lat'];
+		$ret['bind_vars'][] = $pParamHash['geo_coords']['up_lng'];
+		$ret['bind_vars'][] = $pParamHash['geo_coords']['right_lng'];
+		$ret['bind_vars'][] = $pParamHash['geo_coords']['down_lat'];
+		$ret['bind_vars'][] = $pParamHash['geo_coords']['left_lat'];
 	}
-  if (isset($pParamHash['geonotnull'])){
+  if (isset($pParamHash['geo_notnull'])){
 		$ret['where_sql'] = ' AND geo.`lng` IS NOT NULL AND geo.`lng` IS NOT NULL ';
   }
 	return $ret;
