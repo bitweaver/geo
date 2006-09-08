@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.8 2006/09/04 21:01:59 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.9 2006/09/08 01:52:21 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.8 $ $Date: 2006/09/04 21:01:59 $
+* @version $Revision: 1.9 $ $Date: 2006/09/08 01:52:21 $
 * @class LibertyGeo
 */
 
@@ -122,6 +122,9 @@ function geo_content_list_sql( &$pObject, $pParamHash=NULL ) {
 		$ret['bind_vars'][] = $pParamHash['up']['lat'];
 		$ret['bind_vars'][] = $pParamHash['down']['lat'];
 	}
+  if (isset($pParamHash['geonotnull'])){
+		$ret['where_sql'] = ' AND geo.`lng` IS NOT NULL AND geo.`lng` IS NOT NULL ';
+  }
 	return $ret;
 }
 
