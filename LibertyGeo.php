@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.11 2006/09/08 22:05:46 wjames5 Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.12 2006/12/13 19:58:56 nickpalmer Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.11 $ $Date: 2006/09/08 22:05:46 $
+* @version $Revision: 1.12 $ $Date: 2006/12/13 19:58:56 $
 * @class LibertyGeo
 */
 
@@ -36,15 +36,21 @@ class LibertyGeo extends LibertyBase {
 	**/
 	function store( &$pParamHash ) {
 		if( $this->verify( $pParamHash ) ) {
-			$table = BIT_DB_PREFIX."geo";
-			$this->mDb->StartTrans();
-			if( !empty( $this->mInfo ) ) {
-				$result = $this->mDb->associateUpdate( $table, $pParamHash['geo_store'], array( "content_id" => $this->mContentId ) );
-			} else {
-				$result = $this->mDb->associateInsert( $table, $pParamHash['geo_store'] );
+			if (!empty($pParamHash['geo_store'])) {				
+				$pParamHash['geo_store']['content_id'] = $this->mContentId;
+				$table = BIT_DB_PREFIX."geo";
+				$this->mDb->StartTrans();
+				if( !empty( $this->mInfo ) ) {
+					$result = $this->mDb->associateUpdate( $table, $pParamHash['geo_store'], array( "content_id" => $this->mContentId ) );
+				} else {
+					$result = $this->mDb->associateInsert( $table, $pParamHash['geo_store'] );
+				}
+				$this->mDb->CompleteTrans();
+				$this->load();
 			}
-			$this->mDb->CompleteTrans();
-			$this->load();
+			else if (!empty($this->mInfo)) {
+				$this->expunge();
+			}
 		}
 		return( count( $this->mErrors )== 0 );
 	}
@@ -59,20 +65,63 @@ class LibertyGeo extends LibertyBase {
 		$pParamHash['geo_store'] = array();
 		if( $this->isValid() ) {
 			$this->load();
-			$pParamHash['geo_store']['content_id'] = $this->mContentId;
 			if(!empty( $pParamHash['geo'])){			
-			 if( isset( $pParamHash['geo']['lat'] ) && is_numeric( $pParamHash['geo']['lat'] ) ) {
-				  $pParamHash['geo_store']['lat'] = $pParamHash['geo']['lat'];
-			 }
-			 if( isset( $pParamHash['geo']['lng'] ) && is_numeric( $pParamHash['geo']['lng'] ) ) {
-				  $pParamHash['geo_store']['lng'] = $pParamHash['geo']['lng'];
-			 }
-			 if( isset( $pParamHash['geo']['amsl'] ) && is_numeric( $pParamHash['geo']['amsl'] ) ) {
-				$pParamHash['geo_store']['amsl'] = $pParamHash['geo']['amsl'];
-			 }
-			 if( !empty( $pParamHash['geo']['amsl_unit'] ) ) {
-		  		$pParamHash['geo_store']['amsl_unit'] = $pParamHash['geo']['amsl_unit'];
-			 }
+				if( !empty( $pParamHash['geo']['lat'] ) ) {
+					if ( is_numeric( $pParamHash['geo']['lat'] ) ) {
+						$pParamHash['geo_store']['lat'] = $pParamHash['geo']['lat'];
+					}
+					else {
+						$this->mErrors['lat'] = "Latitude must be numeric.";
+					}
+				}				
+				if( !empty( $pParamHash['geo']['lng'] ) ) {
+					if ( is_numeric( $pParamHash['geo']['lng'] ) ) {
+						$pParamHash['geo_store']['lng'] = $pParamHash['geo']['lng'];
+					}
+					else {
+						$this->mErrors['lng'] = "Longitude must be numeric.";
+					}
+				}
+				if( !empty( $pParamHash['geo']['amsl'] ) ) {
+					if (is_numeric( $pParamHash['geo']['amsl'] ) ) {
+						$pParamHash['geo_store']['amsl'] = $pParamHash['geo']['amsl'];
+					}
+					else {
+						$this->mErrors['amsl'] = "amsl must be numeric.";
+					}
+				}
+				if( !empty( $pParamHash['geo']['amsl_unit'] ) ) {
+					$pParamHash['geo_store']['amsl_unit'] = $pParamHash['geo']['amsl_unit'];
+				}
+				if ( empty($this->mErrors['lng']) &&
+					empty($pParamHash['geo_store']['lat']) && 
+					!empty($pParamHash['geo_store']['lng'])) {
+					$this->mErrors['lat'] = "Latitude is required if Longitude is provided.";
+				}
+				if (empty($this->mErrors['lat']) && 
+					empty($pParamHash['geo_store']['lng']) &&
+					!empty($pParamHash['geo_store']['lat'])) {
+					$this->mErrors['lng'] = "Longitude is required if Latitude is provided.";
+				}
+				if (empty($this->mErrors['amsl']) && 
+					!empty($pParamHash['geo_store']['amsl']) && 
+					!empty($pParamHash['geo_store']['amsl_unit'])) {
+					$this->mErrors['amsl_unit'] = "amsl_unit required when amsl provided.";
+				}
+				if (empty($this->mErrors['amsl']) &&
+					!empty($pParamHash['geo_store']['amsl_unit']) &&
+					empty($pParamHash['geo_store']['amsl'])) {
+					$this->mErrors['amsl'] = "amsl is useless without amsl_unit.";
+				}
+				if (empty($this->mErrors['lat']) &&
+					empty($this->mErrors['lng']) &&
+					empty($this->mErrors['amsl']) &&
+					empty($pParamHash['geo_store']['lat']) && 
+					empty($pParamHash['geo_store']['lng']) &&
+					(!empty($pParamHash['geo_store']['amsl']) || 
+						!empty($pParamHash['geo_store']['amsl_unit']))) {
+					$this->mErrors['amsl'] = "amsl and amsl_unit require Latitude and Longitude";
+				}
 			}
 		}
 		return( count( $this->mErrors )== 0 );
@@ -144,10 +193,28 @@ function geo_content_store( &$pObject, &$pParamHash ) {
 	if( $gBitSystem->isPackageActive( 'geo' ) ) {
 		$geo = new LibertyGeo( $pObject->mContentId );
 		if ( !$geo->store( $pParamHash ) ) {
-			$errors=array('geo'=> $geo->mErrors['geo']);
+			$errors=$geo->mErrors;
 		}
 	}
 	return( $errors );
+}
+
+function geo_content_preview( &$pObject) {
+	global $gBitSystem;
+	if ( $gBitSystem->isPackageActive( 'geo' ) ) {		
+		if (isset($_REQUEST['geo']['lat'])) {
+			$pObject->mInfo['lat'] = $_REQUEST['geo']['lat'];
+		}
+		if (isset($_REQUEST['geo']['lng'])) {
+			$pObject->mInfo['lng'] = $_REQUEST['geo']['lng'];
+		}
+		if (isset($_REQUEST['geo']['amsl'])) {
+			$pObject->mInfo['amsl'] = $_REQUEST['geo']['amsl'];
+		}
+		if (isset($_REQUEST['geo']['amsl_unit'])) {
+			$pObject->mInfo['amsl_unit'] = $_REQUEST['geo']['amsl_unit'];
+		}
+	}
 }
 
 function geo_content_expunge( &$pObject ) {
