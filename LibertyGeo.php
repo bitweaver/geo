@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.14 2008/04/01 19:40:13 lsces Exp $
+* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.15 2008/05/09 03:22:22 wjames5 Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.14 $ $Date: 2008/04/01 19:40:13 $
+* @version $Revision: 1.15 $ $Date: 2008/05/09 03:22:22 $
 * @class LibertyGeo
 */
 
@@ -73,6 +73,8 @@ class LibertyGeo extends LibertyBase {
 					else {
 						$this->mErrors['lat'] = "Latitude must be numeric.";
 					}
+				}else{
+					$pParamHash['geo_store']['lat'] = 0;
 				}				
 				if( !empty( $pParamHash['geo']['lng'] ) ) {
 					if ( is_numeric( $pParamHash['geo']['lng'] ) ) {
@@ -81,6 +83,8 @@ class LibertyGeo extends LibertyBase {
 					else {
 						$this->mErrors['lng'] = "Longitude must be numeric.";
 					}
+				}else{
+					$pParamHash['geo_store']['lng'] = 0;
 				}
 				if( !empty( $pParamHash['geo']['amsl'] ) ) {
 					if (is_numeric( $pParamHash['geo']['amsl'] ) ) {
