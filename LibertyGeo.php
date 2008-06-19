@@ -1,14 +1,20 @@
 <?php
 /**
-* @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.16 2008/06/19 04:24:33 lsces Exp $
-* @date created 2006/08/01
-* @author Will <will@onnyturf.com>
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.17 2008/06/19 05:42:25 lsces Exp $
+ * @date created 2006/08/01
+ * @author Will <will@onnyturf.com>
+ *
+ * @package LibertyGeo
+ */
 
-* @class LibertyGeo
-*/
-
+/**
+ * Initialize
+ */
 require_once( KERNEL_PKG_PATH.'BitBase.php' );
 
+/**
+ * @package LibertyGeo
+ */
 class LibertyGeo extends LibertyBase {
 	var $mContentId;
 
