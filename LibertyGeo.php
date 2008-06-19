@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.17 2008/06/19 05:42:25 lsces Exp $
- * @date created 2006/08/01
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.18 2008/06/19 06:47:41 lsces Exp $
+ * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
  * @package LibertyGeo
