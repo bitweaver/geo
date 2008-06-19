@@ -1,9 +1,9 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.15 2008/05/09 03:22:22 wjames5 Exp $
+* @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.16 2008/06/19 04:24:33 lsces Exp $
 * @date created 2006/08/01
 * @author Will <will@onnyturf.com>
-* @version $Revision: 1.15 $ $Date: 2008/05/09 03:22:22 $
+
 * @class LibertyGeo
 */
 
