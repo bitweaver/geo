@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.18 2008/06/19 06:47:41 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.19 2008/06/19 09:38:20 lsces Exp $
  * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
- * @package LibertyGeo
+ * @package geo
  */
 
 /**
@@ -13,7 +13,7 @@
 require_once( KERNEL_PKG_PATH.'BitBase.php' );
 
 /**
- * @package LibertyGeo
+ * @package geo
  */
 class LibertyGeo extends LibertyBase {
 	var $mContentId;
