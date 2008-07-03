@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.20 2008/07/03 08:02:17 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.21 2008/07/03 09:25:26 squareing Exp $
  * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
@@ -75,28 +75,25 @@ class LibertyGeo extends LibertyBase {
 				if( !empty( $pParamHash['geo']['lat'] ) ) {
 					if ( is_numeric( $pParamHash['geo']['lat'] ) ) {
 						$pParamHash['geo_store']['lat'] = $pParamHash['geo']['lat'];
-					}
-					else {
+					} else {
 						$this->mErrors['lat'] = "Latitude must be numeric.";
 					}
-				}else{
+				} else {
 					$pParamHash['geo_store']['lat'] = 0;
 				}
 				if( !empty( $pParamHash['geo']['lng'] ) ) {
 					if ( is_numeric( $pParamHash['geo']['lng'] ) ) {
 						$pParamHash['geo_store']['lng'] = $pParamHash['geo']['lng'];
-					}
-					else {
+					} else {
 						$this->mErrors['lng'] = "Longitude must be numeric.";
 					}
-				}else{
+				} else {
 					$pParamHash['geo_store']['lng'] = 0;
 				}
 				if( !empty( $pParamHash['geo']['amsl'] ) ) {
 					if (is_numeric( $pParamHash['geo']['amsl'] ) ) {
 						$pParamHash['geo_store']['amsl'] = $pParamHash['geo']['amsl'];
-					}
-					else {
+					} else {
 						$this->mErrors['amsl'] = "amsl must be numeric.";
 					}
 				}
@@ -115,7 +112,7 @@ class LibertyGeo extends LibertyBase {
 				}
 				if (empty($this->mErrors['amsl']) &&
 					!empty($pParamHash['geo_store']['amsl']) &&
-					!empty($pParamHash['geo_store']['amsl_unit'])) {
+					empty($pParamHash['geo_store']['amsl_unit'])) {
 						$this->mErrors['amsl_unit'] = "amsl_unit required when amsl provided.";
 				}
 				if (empty($this->mErrors['amsl']) &&
