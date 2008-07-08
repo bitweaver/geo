@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.22 2008/07/08 07:23:57 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.23 2008/07/08 13:32:15 wjames5 Exp $
  * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
@@ -110,7 +110,7 @@ class LibertyGeo extends LibertyBase {
 					$this->mErrors['amsl_unit'] = "amsl_unit required when amsl provided.";
 				}
 				if( !empty( $pParamHash['geo_store']['amsl_unit'] ) && empty( $pParamHash['geo_store']['amsl'] )) {
-					$this->mErrors['amsl'] = "amsl is useless without amsl_unit.";
+					$this->mErrors['amsl'] = "amsl unit is useless without amsl value.";
 				}
 				if( empty( $pParamHash['geo_store']['lat'] ) && empty( $pParamHash['geo_store']['lng'] ) &&
 					( !empty( $pParamHash['geo_store']['amsl'] ) || !empty($pParamHash['geo_store']['amsl_unit'] )))
