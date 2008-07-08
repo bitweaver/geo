@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.21 2008/07/03 09:25:26 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.22 2008/07/08 07:23:57 squareing Exp $
  * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
@@ -97,37 +97,25 @@ class LibertyGeo extends LibertyBase {
 						$this->mErrors['amsl'] = "amsl must be numeric.";
 					}
 				}
-				if( !empty( $pParamHash['geo']['amsl_unit'] ) ) {
+				if( !empty( $pParamHash['geo']['amsl_unit'] )) {
 					$pParamHash['geo_store']['amsl_unit'] = $pParamHash['geo']['amsl_unit'];
 				}
-				if ( empty($this->mErrors['lng']) &&
-					empty($pParamHash['geo_store']['lat']) &&
-					!empty($pParamHash['geo_store']['lng'])) {
-						$this->mErrors['lat'] = "Latitude is required if Longitude is provided.";
+				if( empty( $pParamHash['geo_store']['lat'] ) && !empty( $pParamHash['geo_store']['lng'] )) {
+					$this->mErrors['lat'] = "Latitude is required if Longitude is provided.";
 				}
-				if (empty($this->mErrors['lat']) &&
-					empty($pParamHash['geo_store']['lng']) &&
-					!empty($pParamHash['geo_store']['lat'])) {
-						$this->mErrors['lng'] = "Longitude is required if Latitude is provided.";
+				if( empty( $pParamHash['geo_store']['lng'] ) && !empty( $pParamHash['geo_store']['lat'] )) {
+					$this->mErrors['lng'] = "Longitude is required if Latitude is provided.";
 				}
-				if (empty($this->mErrors['amsl']) &&
-					!empty($pParamHash['geo_store']['amsl']) &&
-					empty($pParamHash['geo_store']['amsl_unit'])) {
-						$this->mErrors['amsl_unit'] = "amsl_unit required when amsl provided.";
+				if( !empty( $pParamHash['geo_store']['amsl'] ) && empty( $pParamHash['geo_store']['amsl_unit'] )) {
+					$this->mErrors['amsl_unit'] = "amsl_unit required when amsl provided.";
 				}
-				if (empty($this->mErrors['amsl']) &&
-					!empty($pParamHash['geo_store']['amsl_unit']) &&
-					empty($pParamHash['geo_store']['amsl'])) {
-						$this->mErrors['amsl'] = "amsl is useless without amsl_unit.";
+				if( !empty( $pParamHash['geo_store']['amsl_unit'] ) && empty( $pParamHash['geo_store']['amsl'] )) {
+					$this->mErrors['amsl'] = "amsl is useless without amsl_unit.";
 				}
-				if (empty($this->mErrors['lat']) &&
-					empty($this->mErrors['lng']) &&
-					empty($this->mErrors['amsl']) &&
-					empty($pParamHash['geo_store']['lat']) &&
-					empty($pParamHash['geo_store']['lng']) &&
-					(!empty($pParamHash['geo_store']['amsl']) ||
-					!empty($pParamHash['geo_store']['amsl_unit']))) {
-						$this->mErrors['amsl'] = "amsl and amsl_unit require Latitude and Longitude";
+				if( empty( $pParamHash['geo_store']['lat'] ) && empty( $pParamHash['geo_store']['lng'] ) &&
+					( !empty( $pParamHash['geo_store']['amsl'] ) || !empty($pParamHash['geo_store']['amsl_unit'] )))
+				{
+					$this->mErrors['amsl'] = "amsl and amsl_unit require Latitude and Longitude";
 				}
 			}
 		}
