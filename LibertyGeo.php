@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.23 2008/07/08 13:32:15 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.24 2008/09/13 15:22:02 nickpalmer Exp $
  * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
@@ -51,6 +51,11 @@ class LibertyGeo extends LibertyBase {
 				} else {
 					$result = $this->mDb->associateInsert( $table, $pParamHash['geo_store'] );
 				}
+
+				if (defined('POSTGIS_SUPPORT')) {
+					$this->mDb->query("UPDATE ".$table." SET `geom`=GeomFromText( 'POINT(' || lat || ' ' || lng || ')', ".POSTGIS_SRID.")");
+				}
+
 				$this->mDb->CompleteTrans();
 				$this->load();
 			}
