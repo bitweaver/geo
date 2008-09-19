@@ -1,1 +1,6 @@
-there you go will.
+<?php 
+
+	// This is not a package.
+	header ("location: ../index.php");
+
+?>
