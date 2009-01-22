@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.24 2008/09/13 15:22:02 nickpalmer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.25 2009/01/22 20:54:59 tekimaki_admin Exp $
  * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
@@ -189,10 +189,15 @@ function geo_content_list_sql( &$pObject, $pParamHash=NULL ) {
 function geo_content_store( &$pObject, &$pParamHash ) {
 	global $gBitSystem;
 	$errors = NULL;
-	// If a content access system is active, let's call it
-	if( $gBitSystem->isPackageActive( 'geo' ) ) {
+	// If a content access system is active and we have geo in our store hash, let's call it
+	if( $gBitSystem->isPackageActive( 'geo' ) && !empty( $pParamHash['geo'] ) ) {
 		$geo = new LibertyGeo( $pObject->mContentId );
-		if ( !$geo->store( $pParamHash ) ) {
+
+		// if both lat and lng fields are empty then the user is trying to clear geo data
+		if( empty( $pParamHash['geo']['lat'] ) && empty( $pParamHash['geo']['lng'] ) ) {
+			$geo->expunge();
+		// store the geo data
+		}elseif ( !$geo->store( $pParamHash ) ) {
 			$errors=$geo->mErrors;
 		}
 	}
