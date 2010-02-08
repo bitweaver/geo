@@ -6,7 +6,7 @@ global $gShellScript, $gBitSystem;
 $gShellScript = TRUE;
 
 chdir( dirname( __FILE__ ));
-require_once( '../../bit_setup_inc.php' );
+require_once( '../../kernel/setup_inc.php' );
 
 if( !empty( $argc )) {
 	// reduce feedback for command line to keep log noise way down
