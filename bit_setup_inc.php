@@ -1,4 +1,6 @@
 <?php
+define( 'LIBERTY_SERVICE_GEO', 'global_positioning' );
+
 $registerHash = array(
 	'package_name' => 'geo',
 	'package_path' => dirname( __FILE__ ).'/',
