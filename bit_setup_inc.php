@@ -22,7 +22,7 @@ if( $gBitSystem->isPackageActive( 'geo' ) ) {
 			'content_expunge_function'  => 'geo_content_expunge',
 		),
 		array( 
-			'description' => 'Enables the addition of geographic data to any content.'
+			'description' => 'Enables the addition of geo spacial data to any content.'
 		)
 	);
 }
