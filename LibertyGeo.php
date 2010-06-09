@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_geo/LibertyGeo.php,v 1.26 2009/01/29 19:34:33 tekimaki_admin Exp $
+ * @version $Header$
  * created 2006/08/01
  * @author Will <will@onnyturf.com>
  *
