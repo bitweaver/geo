@@ -18,7 +18,7 @@ if( empty( $argc ) && !$gBitUser->isAdmin() ) {
 }
 
 if (!defined('POSTGIS_SUPPORT') || !defined('POSTGIS_SRID') ) {
-  echo "POSTGIS_SUPPORT or POSTGIS_SRID not defined. Please add  define('POSTGIS_SUPPORT', true); define('POSTGIS_SRID', 4326); to your kernel/config_inc.php";
+  echo "POSTGIS_SUPPORT or POSTGIS_SRID not defined. Please add  define('POSTGIS_SUPPORT', true); define('POSTGIS_SRID', 4326); to your config/kernel_config.php";
   die;
 }
 
