@@ -1,5 +1,5 @@
 <?php
-// Add the following to your config/kernel_config.php to add postgis support to geo
+// Add the following to your config/config_inc.php to add postgis support to geo
 // define('POSTGIS_SUPPORT', true); define('POSTGIS_SRID', 4326);
 
 $tables = array(
