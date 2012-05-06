@@ -19,7 +19,7 @@ class LibertyGeo extends LibertyBase {
 	var $mContentId;
 
 	function LibertyGeo( $pContentId=NULL ) {
-		LibertyBase::LibertyBase();
+		parent::__construct();
 		$this->mContentId = $pContentId;
 	}
 
